@@ -19,7 +19,7 @@ http.createServer(function(request, response) {
     response.write("<body>");
    
     response.write("<table border ='solid 3px black' align='center'>");
-    for (var i=0; i < json.Search.length; i++) {
+    for (var i=0; i < json.Search.length; i++) { //Loop and show information
         response.write("<tr>");
         response.write(("</td><td><img style='width:70%' src=" +json.Search[i].Poster +">"
         + "</td><td>" + "TITLE: " + json.Search[i].Title + "</td><td>"
