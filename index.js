@@ -9,22 +9,3 @@ http
     response.end("This is the end"); //end the response
   })
   .listen(PORT); //the server object listens on port 8080
-
-
-package.json:
-
-{
-  "name": "node workshop 3",
-  "version": "0.1.0",
-  "description": "A sample Node.js app in Heroku",
-  "engines": {
-    "node": "12.x"
-  },
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "test": "node test.js"
-  }
-
-
-}
