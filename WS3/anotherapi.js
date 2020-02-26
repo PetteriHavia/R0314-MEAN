@@ -2,11 +2,11 @@
 var fs = require("fs");
 var http = require("http");
 var axios = require('axios');
-var pokemon = require("pokemontcgsdk");
+var pokemon = require("pokemontcgsdk"); //npm install pokemontcgsdk
 var json;
 
 const promise = axios
-.get("https://api.pokemontcg.io/v1/cards") //Get information
+.get("https://api.pokemontcg.io/v1/cards") //Get information from source
 .then(response => {
     const data = response.data;
     json = data;
@@ -19,11 +19,11 @@ http.createServer(function(request, response) {
     response.write("<h1 align ='center'>CARD COLLECTION</h1>");
     response.write("<table border ='solid 2px black' align='center'>");
 
-    for (var i=0; i < json.Search.length; i++) {
+    for (var i=0; i < json.Search.length; i++) {  //Loop and show information
         response.write("<tr>");
         response.write(("</td><td><img style='width:70%' src=" + json[i].imageUrl +">"
         + "</td><td>" + "NAME: " + json[i].name + "</td><td>"
-        + "NUMBER: " + json[i].id + "</td>"));
+        + "NUMBER: " + json[i].set + "</td>"));
         response.write("</tr>");
     };
     response.write("</table>");
