@@ -10,6 +10,7 @@ const promise = axios
     const data = response.data;
     json = data;
     console.log(json); // log JSON information
+    
 });
 
 http.createServer(function(request, response) {
