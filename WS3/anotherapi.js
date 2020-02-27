@@ -27,7 +27,7 @@ http.createServer(function(request, response) {
         response.write("</tr>");
     };
     response.write("</table>");
-    response.write("</body></html>");
+    response.write("</body></html>");//jotain
 
 response.end();
 }).listen(8081);
