@@ -11,6 +11,7 @@
     "test": "node test.js"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "mongodb": "^3.5.4",
     "mysqli": "^3.0.11",
     "sails": "^1.2.3"
