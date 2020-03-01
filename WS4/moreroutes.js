@@ -61,11 +61,6 @@ app.get('/add', function(req, res) {
     res.send("Saved the data to a file. Browse to the /details to see the contents of the file");
 });
 
-app.get('./adduser', function (req, res ) {
-    res.sendFile(__dirname + '/public/adduser.html');
-
-});
-
 app.get('*', function(req, res) {
     res.end("Can't find the requested page", 404);
 });
