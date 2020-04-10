@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Password</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+       
+    
+        <style>
+            .container{
+                width:400px;
+                padding: 30px;
+                margin-top: 20px;
+                background-color:lightblue;
+            }
+
+            h1,h3{
+                font-family: Verdana, Geneva, sans-serif;
+                text-align: center;
+                margin-top: 20px;
+                
+            }
+
+            input[type=text], textarea{
+                padding: 10px;
+                width: 330px;
+                resize: none;
+            }
+
+            input[type=submit]{
+                padding:5px 15px; 
+                border-radius: 5px;
+                margin: 0 auto;
+            }
+            .navbar{
+                text-align: center;
+                margin-bottom: 20px;
+                margin-top: 20px;
+            }
+
+            .navbar, a{
+             padding: 0px 15px 0px 15px;
+            }
+
+            .navbar{
+                margin: auto;
+                text-align: center;
+                margin-top: 10px;
+            }
+
+            hr{
+            border: 0.5px solid lightgray;
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <div class="navbar">
+            <h4>Back To</h4>
+              <a href="index.html">/Home</a>
+              <a href="login.html">/Login</a>
+              <hr>
+            </div>
+
+        <h1>/Log In</h1>
+        <div class="container">
+            <form  name="messageform" method="POST" action="/login">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="text" name="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Password</label>
+                    <input type="text" name="password" id="password" required>
+                </div>
+                <button type="submit" id="subBtn" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+    
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </body>
+
+
+</html>
