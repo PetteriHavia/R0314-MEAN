@@ -26,23 +26,3 @@ exports.getData = function getResult(user, callback) {
       });
     });
   };
-
-
-
-  /*
-
-    //Etsi käyttäjää tietokannasta
-    var result = mongo.getData(user, function (err, result) {
-        if (err) throw err;
-        console.log("getData result: ");
-        console.log(result);
-
-        if (result.length == 0) res.send("Käyttäjää ei ole");
-    // Vertaa salasanaa tietokannassa olevaan bcrypt salasanaan
-        else if (bcrypt.compareSync(req.body.password, result[0].password)) {
-            console.log("Password match");
-            res.render('pages/loggedin', {data: result });   
-        }else res.send("Virheellinen tunnus/salasana");
-    });
-});
-*/
