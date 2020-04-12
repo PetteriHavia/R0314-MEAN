@@ -3,6 +3,7 @@ var fs = require("fs");
 var express = require ("express");
 var app = express();
 var bodyParser = require("body-parser");
+var mongoose = require("mongoose");
 
 
 // Bcrypt
@@ -19,23 +20,27 @@ app.use(express.static(__dirname + '/pages'));
 var mongo = require("./modules/mongo");
 
 
-// Tuodaan moduuli ohjelmaan
-const MongoClient = require("mongodb").MongoClient;
-// Määritellään salasana ja yhteysosoite tietokantaan (tämän saa MongoDB Atlas-palvelusta)
+// Yhteysosoite
 const password = "m001-mongodb-basics";
-const uri="mongodb+srv://m001-student:"+password+"@sandbox-q0ofp.mongodb.net/test?retryWrites=true&w=majority";
-// Luodaan uusi yhteysolio käyttäen edellä määriteltyä URI:a sekä tarvittavia parametreja
-const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+var uri = "mongodb+srv://m001-student:"+password+"@sandbox-q0ofp.mongodb.net/userData";
+
+// Luodaan yhteys
+// mongoose.connect(uri);
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+var db = mongoose.connection;
+
+// Yhteyden varmistus
+db.on("error", console.error.bind(console, "connection error:"));
+
+db.once("open", function() {
+  console.log("Connection Successful!");
 });
-// Luodaan yhteys ja tulostetaan tieto virheestä tai onnistumisesta
-// virhetiedot palaututuvat err muuttujaan, hakujen tulokset r-muuttujaan
-client.connect( function (err,r)  {
-   if (err) throw err;
-   else console.log("Connected!");
-// Suljetaan tietokantayhteys
-    client.close();
+
+// Mongoose schema
+var userSchema = mongoose.Schema({
+    email: String,
+    password: String
 });
 
 //ROUTES
@@ -48,29 +53,19 @@ app.post('/', function (req, res) {
     var password = req.body.password;
     var newpass = bcrypt.hashSync(password, saltRounds);
 
-    // Määritellään tietokantaan tehtävä kyselu JSON-oliona
-    var query = {
-        title: new RegExp("Uusi")
-      };
+    // Yhdistä schema modeliin + määritä db collection 'info'
+    var user = mongoose.model("user", userSchema, 'info');
 
-    // Lisättävä tieto
-    var newData = {
+    var addUser = new user ({
         email: req.body.email,
         password: newpass
-    };
-
-    // Luodaan yhteys  tietokantaan nimeltä "userData" ja sieltä kokoelmaan "info"
-    client.connect(err => {
-        const collection = client.db("userData").collection("info");
-        if (err) throw err;
-
-        // Suoritetaan lisäys collection-olion avulla
-        collection.insertOne(newData, function (err, r) {
-        // Tulosta konsoliin tieto montako alkiota on lisätty
-            console.log(r.insertedCount);
-        });
     });
-    client.close();
+
+    // Tallenna tietokantaan
+    addUser.save(function(err,user) {
+        if (err) console.log(err);
+        console.log("Lisätty: " + user);
+    });
     res.redirect('/');
 });
 
@@ -79,27 +74,24 @@ app.post('/login', function (req, res) {
     console.log("Lomakkeelta saatu: ");
     console.log(req.body);
 
+
     var user = {
         email: req.body.email
     };
 
-    console.log("Existing: ");
-    console.log(user);
-    
-    //Etsi käyttäjää tietokannasta
-    var result = mongo.getData(user, function (err, result) {
-        if (err) throw err;
-        console.log("getData result: ");
-        console.log(result);
+    var result = user.findOne({email: email}, function(err, result) {
+        if(err) throw err;
 
-        if (result.length == 0)
+
+        if(result.length == 0)
             res.send("Käyttäjää ei löytynyt");
-    // Vertaa salasanaa tietokannassa olevaan bcrypt salasanaan
+
         else if (bcrypt.compareSync(req.body.password, result[0].password)) {
             console.log("Käyttäjä löytyi");
-            res.sendFile(__dirname + '/pages/loggedin.html');   
+            res.sendFile(__dirname + '/pages/loggedin.html');
         }else
-            res.send("Virheellinen tunnus/salasana");
+            res.send("Virheellinen tunnus/salasana");   
+
     });
 });
 
